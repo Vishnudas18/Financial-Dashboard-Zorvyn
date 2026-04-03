@@ -172,10 +172,10 @@ const Badge = ({ className, variant = "default", ...props }) => {
     secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
     destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
     outline: "text-foreground",
-    success: "border-transparent bg-emerald-500/10 text-emerald-500",
-    warning: "border-transparent bg-rose-500/10 text-rose-500",
+    success: "border-transparent bg-zinc-100 text-zinc-900 font-bold",
+    warning: "border-transparent bg-zinc-800 text-zinc-100 font-bold",
   };
-  return <div className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors", variants[variant], className)} {...props} />;
+  return <div className={cn("inline-flex items-center rounded-sm border px-2.5 py-0.5 text-[10px] font-bold uppercase transition-colors", variants[variant], className)} {...props} />;
 };
 
 const Input = React.forwardRef(({ className, type, ...props }, ref) => {
@@ -427,7 +427,7 @@ const SummaryCards = () => {
           <Icon className="w-5 h-5 text-primary" />
         </div>
         {change !== undefined && (
-          <div className={cn("flex items-center text-xs font-mono", change >= 0 ? "text-emerald-500" : "text-rose-500")}>
+          <div className={cn("flex items-center text-[10px] font-bold uppercase tracking-widest", change >= 0 ? "text-white" : "text-zinc-500")}>
             {change >= 0 ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
             {Math.abs(change).toFixed(1)}%
           </div>
@@ -489,7 +489,7 @@ const ChartsSection = () => {
       .sort((a,b) => b.value - a.value);
   }, [thisMonthExpenses]);
 
-  const COLORS = ['#10b981', '#8b5cf6', '#3b82f6', '#f59e0b', '#ef4444', '#ec4899', '#6366f1', '#06b6d4'];
+  const COLORS = ['#ffffff', '#f4f4f5', '#d4d4d8', '#a1a1aa', '#71717a', '#52525b', '#3f3f46', '#27272a'];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
@@ -502,19 +502,19 @@ const ChartsSection = () => {
             <AreaChart data={chartData}>
               <defs>
                 <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#ffffff" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#ffffff" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
               <XAxis dataKey="name" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}`} />
               <RTooltip 
-                contentStyle={{ backgroundColor: '#1e1e26', border: '1px solid #27272a', borderRadius: '8px' }}
-                itemStyle={{ color: '#fff' }}
-                cursor={{ stroke: '#10b981', strokeWidth: 2 }}
+                contentStyle={{ backgroundColor: '#000000', border: '1px solid #27272a', borderRadius: '4px' }}
+                itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}
+                cursor={{ stroke: '#ffffff', strokeWidth: 1, strokeDasharray: '4 4' }}
               />
-              <Area type="monotone" dataKey="balance" stroke="#10b981" fillOpacity={1} fill="url(#colorBalance)" strokeWidth={3} />
+              <Area type="monotone" dataKey="balance" stroke="#ffffff" fillOpacity={1} fill="url(#colorBalance)" strokeWidth={2} dot={{ fill: '#ffffff', r: 4 }} activeDot={{ r: 6, stroke: '#000', strokeWidth: 2 }} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -566,10 +566,11 @@ const ChartsSection = () => {
               <XAxis dataKey="name" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}`} />
               <RTooltip 
-                contentStyle={{ backgroundColor: '#1e1e26', border: '1px solid #27272a', borderRadius: '8px' }}
+                contentStyle={{ backgroundColor: '#000000', border: '1px solid #27272a', borderRadius: '4px' }}
+                itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
               />
-              <Bar dataKey="income" fill="#10b981" radius={[4, 4, 0, 0]} barSize={20} />
-              <Bar dataKey="expense" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={20} />
+              <Bar dataKey="income" fill="#ffffff" radius={[2, 2, 0, 0]} barSize={16} />
+              <Bar dataKey="expense" fill="#3f3f46" radius={[2, 2, 0, 0]} barSize={16} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -953,7 +954,7 @@ const TransactionTable = () => {
                 <td className="px-6 py-4 text-center">
                    <div className={cn(
                      "inline-flex items-center text-[10px] uppercase font-bold",
-                     t.type === 'income' ? "text-emerald-500" : "text-rose-500"
+                     t.type === 'income' ? "text-white" : "text-zinc-500"
                    )}>
                      {t.type === 'income' ? <Plus className="w-2.5 h-2.5 mr-1" /> : <div className="w-2.5 h-0.5 bg-current mr-1 rounded" />}
                      {t.type}
@@ -961,7 +962,7 @@ const TransactionTable = () => {
                 </td>
                 <td className={cn(
                   "px-6 py-4 text-right font-mono font-bold",
-                  t.type === 'income' ? "text-emerald-500" : "text-rose-500"
+                  t.type === 'income' ? "text-white" : "text-zinc-400"
                 )}>
                   {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount)}
                 </td>
@@ -1040,13 +1041,13 @@ const InsightsGrid = () => {
   const totalSavings = filteredTransactions.reduce((s, t) => s + (t.type === 'income' ? t.amount : -t.amount), 0);
   const savingsProgress = Math.max(0, Math.min(100, (totalSavings / (totalIncome * 0.2)) * 100));
 
-  const InsightCard = ({ icon: Icon, title, metric, context, accent = "emerald" }) => (
+  const InsightCard = ({ icon: Icon, title, metric, context, accent = "zinc" }) => (
     <Card className={cn("p-6 relative overflow-hidden border-l-4 transition-all hover:translate-y-[-2px]", 
-      accent === "emerald" ? "border-l-emerald-500 bg-emerald-500/5" : "border-l-violet-500 bg-violet-500/5")}>
+      accent === "zinc" ? "border-l-zinc-100 bg-zinc-100/5" : "border-l-zinc-500 bg-zinc-500/5")}>
       <Icon className="absolute top-2 right-2 w-12 h-12 opacity-5" />
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-           <div className={cn("p-1.5 rounded bg-background border", accent === "emerald" ? "border-emerald-500/20 text-emerald-500" : "border-violet-500/20 text-violet-500")}>
+           <div className={cn("p-1.5 rounded bg-background border", accent === "zinc" ? "border-zinc-100/20 text-zinc-100" : "border-zinc-500/20 text-zinc-500")}>
              <Icon className="w-4 h-4" />
            </div>
            <h3 className="text-xs font-mono uppercase tracking-widest text-muted-foreground">{title}</h3>
@@ -1071,7 +1072,7 @@ const InsightsGrid = () => {
         icon={Calendar}
         title="Monthly Comparison"
         metric="Trend Analysis"
-        accent="violet"
+        accent="slate"
         context={`You've spent ${thisMonthExpenses.length > lastMonthExpenses.length ? 'more' : 'less'} frequently this month compared to last month.`}
       />
        <InsightCard 
@@ -1083,15 +1084,15 @@ const InsightsGrid = () => {
       <InsightCard 
         icon={ArrowUpRight}
         title="Best Income Month"
-        accent="violet"
+        accent="slate"
         metric={bestIncomeMonth ? bestIncomeMonth.name : "N/A"}
         context={bestIncomeMonth ? `Highest monthly earnings recorded: ${formatCurrency(bestIncomeMonth.amount)}` : 'Keep tracking to see insights.'}
       />
-      <Card className="p-6 border-l-4 border-l-emerald-500 bg-emerald-500/5 lg:col-span-1">
-        <Target className="absolute top-2 right-2 w-12 h-12 opacity-5 text-emerald-500" />
+      <Card className="p-6 border-l-4 border-l-zinc-100 bg-zinc-100/5 lg:col-span-1">
+        <Target className="absolute top-2 right-2 w-12 h-12 opacity-5 text-zinc-100" />
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-             <div className="p-1.5 rounded bg-background border border-emerald-500/20 text-emerald-500">
+             <div className="p-1.5 rounded bg-background border border-zinc-100/20 text-zinc-100">
                <Target className="w-4 h-4" />
              </div>
              <h3 className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Savings Goal Tracker</h3>
@@ -1101,9 +1102,9 @@ const InsightsGrid = () => {
                 <p className="text-2xl font-bold font-mono">{savingsProgress.toFixed(1)}%</p>
                 <p className="text-[10px] uppercase text-muted-foreground">Target: 20% Income</p>
              </div>
-             <div className="h-2 w-full bg-background rounded-full overflow-hidden border border-emerald-500/20">
+             <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
                 <div 
-                  className="h-full bg-emerald-500 transition-all duration-1000" 
+                  className="h-full bg-white transition-all duration-1000" 
                   style={{ width: `${savingsProgress}%` }} 
                 />
              </div>
@@ -1113,7 +1114,7 @@ const InsightsGrid = () => {
       </Card>
       <InsightCard 
         icon={Zap}
-        accent="violet"
+        accent="slate"
         title="Frequent Patterns"
         metric={frequentCategory ? frequentCategory.name : "None"}
         context={`${frequentCategory ? frequentCategory.count : 0} transactions detected in this category across your history.`}
